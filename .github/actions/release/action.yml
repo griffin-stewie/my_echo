@@ -27,6 +27,7 @@ runs:
       xcode-version: '14.0.1'
   - name: Resolve
     run: swift package resolve
+    shell: bash
   - name: Build
     env:
       SIGNING_IDENTIFIER: ${{ inputs.signing-identifier }}
