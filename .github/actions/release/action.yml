@@ -1,0 +1,50 @@
+name: release
+description: release my_echo
+inputs:
+  tag:
+    description: tag name to be released
+    default: ''
+  token:
+    description: GitHub token
+    required: true
+  signing-identifier:
+    description: signing identifier to codesign
+    required: true
+  apple-id:
+    description: Apple ID for Notarization
+    required: true
+  apple-id-password:
+    description: Apple ID's password for Notarization. Using App Password is recommended.
+    required: true
+  team-id:
+    description: Team ID for Notarization
+    required: true
+runs:
+  using: composite
+  steps:
+  - uses: maxim-lobanov/setup-xcode@v1
+    with:
+      xcode-version: '14.0.1'
+  - name: Resolve
+    run: swift package resolve
+  - name: Build
+    env:
+      SIGNING_IDENTIFIER: ${{ inputs.signing-identifier }}
+    run: |
+      make prepare_zip
+    shell: bash
+  - name: Xcode Notarization Action
+    uses: cocoalibs/xcode-notarization-action@v1.0.2
+    with:
+      app-path: 'release_binary.zip'
+      apple-id: ${{ inputs.apple-id }}
+      password: ${{ inputs.apple-id-password }}
+      team-id: ${{ inputs.team-id }}
+      xcode-path: '/Applications/Xcode_14.0.1.app'
+  - name: upload
+    uses: softprops/action-gh-release@v1
+    env:
+      GITHUB_TOKEN: ${{ inputs.token }}
+    with:
+      files: release_binary.zip
+      tag_name: ${{ inputs.tag }}
