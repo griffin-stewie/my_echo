@@ -18,4 +18,10 @@ jobs:
       with:
         tag: ${{ steps.tagpr.outputs.tag }}
         token: ${{ secrets.GITHUB_TOKEN }}
+        signing-identifier: ${{ secrets.SIGNING_IDENTIFIER }}
+        apple-id: ${{ secrets.APPLE_ID }}
+        apple-id-password: ${{ secrets.APPLE_ID_PASSWORD }}
+        team-id: ${{ secrets.TEAM_ID }}
+        certificate-base64: ${{ secrets.CERTIFICATE_BASE64 }}
+        p12-password: ${{ secrets.P12_PASSWORD }}
       # if: "steps.tagpr.outputs.tag != ''"
