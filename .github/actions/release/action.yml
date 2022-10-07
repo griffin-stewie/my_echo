@@ -79,6 +79,7 @@ runs:
       apple-id: ${{ inputs.apple-id }}
       password: ${{ inputs.apple-id-password }}
       team-id: ${{ inputs.team-id }}
+      staple: 'false'
       xcode-path: '/Applications/Xcode_14.0.1.app'
   - name: upload
     uses: softprops/action-gh-release@v1
