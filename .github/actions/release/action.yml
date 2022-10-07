@@ -42,6 +42,13 @@ runs:
       KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
       KEYCHAIN_PASSWORD=$(uuidgen)
 
+      # echo
+      echo "CERTIFICATE_PATH: ${CERTIFICATE_PATH}"
+      echo "KEYCHAIN_PATH: ${KEYCHAIN_PATH}"
+      echo "KEYCHAIN_PASSWORD: ${KEYCHAIN_PASSWORD}"
+      echo "CERTIFICATE_BASE64: ${CERTIFICATE_BASE64}"
+      echo "P12_PASSWORD: ${P12_PASSWORD}"
+
       # import certificate and provisioning profile from secrets
       echo -n "$CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
 
