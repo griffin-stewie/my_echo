@@ -1,5 +1,7 @@
 # Changelog
 
+## [v0.0.5](https://github.com/griffin-stewie/my_echo/compare/v0.0.4...v0.0.5) - 2022-10-07
+
 ## [v0.0.4](https://github.com/griffin-stewie/my_echo/compare/v0.0.3...v0.0.4) - 2022-10-07
 
 ## [v0.0.3](https://github.com/griffin-stewie/my_echo/compare/v0.0.2...v0.0.3) - 2022-10-06
