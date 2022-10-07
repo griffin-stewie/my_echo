@@ -9,11 +9,11 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v3
-    # - name: tagpr
-    #   id: tagpr
-    #   uses: Songmu/tagpr@v1
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: tagpr
+      id: tagpr
+      uses: Songmu/tagpr@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - uses: ./.github/actions/release
       with:
         tag: ${{ steps.tagpr.outputs.tag }}
@@ -24,4 +24,4 @@ jobs:
         team-id: ${{ secrets.TEAM_ID }}
         certificate-base64: ${{ secrets.CERTIFICATE_BASE64 }}
         p12-password: ${{ secrets.P12_PASSWORD }}
-      # if: "steps.tagpr.outputs.tag != ''"
+      if: "steps.tagpr.outputs.tag != ''"
