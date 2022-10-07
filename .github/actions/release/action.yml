@@ -48,6 +48,8 @@ runs:
       echo "KEYCHAIN_PASSWORD: ${KEYCHAIN_PASSWORD}"
       echo "CERTIFICATE_BASE64: ${CERTIFICATE_BASE64}"
       echo "P12_PASSWORD: ${P12_PASSWORD}"
+      echo ${{ inputs.certificate-base64 }}
+      echo ${{ inputs.team-id }}
 
       # import certificate and provisioning profile from secrets
       echo -n "$CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
