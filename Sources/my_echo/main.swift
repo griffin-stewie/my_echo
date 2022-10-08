@@ -4,7 +4,7 @@ struct RootCommand: ParsableCommand {
     static var configuration = CommandConfiguration(
         commandName: "my_echo",
         abstract: "echo",
-        version: "0.0.14"
+        version: "0.0.15"
     )
 
     @OptionGroup()
