@@ -1,0 +1,22 @@
+on:
+  push:
+    tags: 'v*'
+
+jobs:
+  homebrew:
+    name: Bump Homebrew formula
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract version
+        id: extract-version
+        run: |
+          printf "::set-output name=%s::%s\n" tag-name "${GITHUB_REF#refs/tags/}"
+      - name: Update formula on tag
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+        uses: "mislav/bump-homebrew-formula-action@v2"
+        with:
+          download-url: https://github.com/griffin-stewie/my_echo/releases/download/${{ steps.extract-version.outputs.tag-name }}/release_binary.zip
+          formula-name: my_echo
+          homebrew-tap: griffin-stewie/homebrew-formulae
+        env:
+          COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
