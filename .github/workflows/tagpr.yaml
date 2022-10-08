@@ -31,7 +31,7 @@ jobs:
       run: |
         printf "::set-output name=%s::%s\n" tag-name "${GITHUB_REF#refs/tags/}"
     - name: Update formula on tag
-      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && steps.tagpr.outputs.tag != ''
+      if: "steps.tagpr.outputs.tag != ''"
       uses: "mislav/bump-homebrew-formula-action@v2"
       with:
         download-url: https://github.com/griffin-stewie/my_echo/releases/download/${{ steps.extract-version.outputs.tag-name }}/release_binary.zip
