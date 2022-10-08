@@ -88,3 +88,4 @@ runs:
     with:
       files: release_binary.zip
       tag_name: ${{ inputs.tag }}
+    if: "inputs.tag != ''"
