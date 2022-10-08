@@ -25,16 +25,12 @@ jobs:
         certificate-base64: ${{ secrets.CERTIFICATE_BASE64 }}
         p12-password: ${{ secrets.P12_PASSWORD }}
       if: "steps.tagpr.outputs.tag != ''"
-    - name: Extract version
-      id: extract-version
-      if: "steps.tagpr.outputs.tag != ''"
-      run: |
-        printf "::set-output name=%s::%s\n" tag-name "${GITHUB_REF#refs/tags/}"
     - name: Update formula on tag
       if: "steps.tagpr.outputs.tag != ''"
       uses: "mislav/bump-homebrew-formula-action@v2"
       with:
-        download-url: https://github.com/griffin-stewie/my_echo/releases/download/${{ steps.extract-version.outputs.tag-name }}/release_binary.zip
+        tag-name: ${{ steps.tagpr.outputs.tag }}
+        download-url: https://github.com/griffin-stewie/my_echo/releases/download/${{ steps.tagpr.outputs.tag }}/release_binary.zip
         formula-name: my_echo
         homebrew-tap: griffin-stewie/homebrew-formulae
       env:
