@@ -25,7 +25,10 @@ inputs:
   p12-password:
     description: password for Developer ID certificate
     required: true
-
+  keychain-profile:
+    description: 'notarytool --keychain-profile parameter'
+    required: true
+    default: 'AC_PASSWORD'
 runs:
   using: composite
   steps:
@@ -62,6 +65,9 @@ runs:
       # import certificate to keychain
       security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
       security list-keychain -d user -s $KEYCHAIN_PATH
+
+      # import credentials from secrets
+      xcrun notarytool store-credentials "${{ inputs.keychain-profile }}" --apple-id "${{ inputs.apple-id }}" --password "${{ inputs.apple-id-password }}" --team-id "${{ inputs.team-id }}" --keychain "${KEYCHAIN_PATH}"
     shell: bash
   - name: Resolve
     run: swift package resolve
@@ -70,17 +76,8 @@ runs:
     env:
       SIGNING_IDENTIFIER: ${{ inputs.signing-identifier }}
     run: |
-      make prepare_zip
+      make release_zip
     shell: bash
-  - name: Xcode Notarization Action
-    uses: cocoalibs/xcode-notarization-action@v1.0.2
-    with:
-      app-path: 'release_binary.zip'
-      apple-id: ${{ inputs.apple-id }}
-      password: ${{ inputs.apple-id-password }}
-      team-id: ${{ inputs.team-id }}
-      staple: 'false'
-      xcode-path: '/Applications/Xcode_14.0.1.app'
   - name: upload
     uses: softprops/action-gh-release@v1
     env:
